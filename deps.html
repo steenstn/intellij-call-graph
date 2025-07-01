@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+		  <script type="module">
+    import mermaid from 'https://cdn.jsdelivr.net/npm/mermaid@10/dist/mermaid.esm.min.mjs';
+              window.mermaid = mermaid;
+  </script>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Textarea Change Event</title>
+    <script>
+
+let count
+let handleTextChange = async (event) => {
+	let allText = event.target.value;
+	let lines = allText.split('\n');
+	//alert("Textarea content changed to: " + event.target.value);
+	//alert(lines);
+	let callStack = [];	
+	callStack.push("target");
+	let currentIndentation = 0;
+
+	let output = document.getElementById("output");
+		let graph = document.getElementById("graph");
+		//graph.innerText=""
+		let lastLine = callStack[0];
+		output.value = "graph TD\n";
+	lines.forEach(line => {
+		if (!line) {
+			return;
+		}
+		let replacedLine = line.replace(/\(.*\)  .*/,"").replace(/\s*/,"").replace(/  \(.*\)/,"");
+		console.log(replacedLine);
+		let indentation = line.search(/\w/);
+		indentation/=4;
+
+		
+		console.log(indentation);
+		if(indentation > currentIndentation) {
+			currentIndentation = indentation;
+			callStack.push(lastLine);
+			
+		}
+		if(indentation < currentIndentation) {
+			let diff = currentIndentation - indentation;
+			currentIndentation = indentation;
+			for (let i = 0; i < diff; i++) {
+				callStack.pop();
+			}
+		}
+			output.value+=replacedLine+ " --> " + callStack[currentIndentation] + "\n";
+		//	graph.innerText+=replacedLine+ " --> " + callStack[currentIndentation] + "\n";
+
+		lastLine = replacedLine;
+		});	
+    mermaid.initialize( { startOnLoad: false });
+    const { svg } = await mermaid.render('graph', output);
+    graph.innerHTML = svg;
+
+}
+    </script>
+</head>
+<body>
+    <h1>Textarea Change Example</h1>
+    <textarea onchange="handleTextChange(event)" rows="5" cols="30"></textarea>
+    <textarea id="output" rows="5" cols="30"></textarea>
+
+		<pre id="graph" class="mermaid">
+			    graph TD
+      A[Start] --> B{Is it working?}
+      B -- Yes --> C[Great]
+      B -- No --> D[Fix it]
+      D --> B
+		</pre>
+</body>
+</html>
