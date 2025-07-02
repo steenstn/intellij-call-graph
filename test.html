@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <script src="parser.js"></script>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Replace tester</title>
+    <script>
+        let handleTextChange = async (event) => {
+            let allText = event.target.value;
+            let lines = allText.split("\n");
+            let output = document.getElementById("output");
+            output.value = ""
+            lines.forEach(line => {
+
+                let result = replaceLine(line);
+                output.value += result+"\n";
+            })
+
+        }
+    </script>
+</head>
+<body>
+<h1>Textarea Change Example</h1>
+<textarea onchange="handleTextChange(event)" rows="5" cols="30"></textarea>
+<textarea id="output" rows="5" cols="30"></textarea>
+
+</body>
+</html>
