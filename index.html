@@ -4,6 +4,7 @@
 		  <script type="module">
     import mermaid from 'https://cdn.jsdelivr.net/npm/mermaid@10/dist/mermaid.esm.min.mjs';
               window.mermaid = mermaid;
+    mermaid.initialize({ startOnLoad: false });
   </script>
     <script src="parser.js"></script>
     <meta charset="UTF-8">
@@ -16,14 +17,22 @@
 
         let output = document.getElementById("output");
         output.value = result;
+        let graph = document.getElementById("graph");
+        graph.innerHTML = result;
+
+        await mermaid.run({
+            querySelector: '.mermaid',
+        });
     }
     </script>
 </head>
 <body>
 <p>Input. Paste IntelliJ call hierarchy here</p>
     <textarea onchange="handleTextChange(event)" rows="10" cols="50"></textarea><br />
-<p>Output. Paste the result below in a Mermaid flowchart editor</p>
+<p>Output</p>
     <textarea id="output" rows="10" cols="50"></textarea>
+<pre id="graph" class="mermaid">
 
+    </pre>
 </body>
 </html>
