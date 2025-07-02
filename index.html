@@ -18,8 +18,11 @@
         let output = document.getElementById("output");
         output.value = result;
         let graph = document.getElementById("graph");
-        graph.innerHTML = result;
+        graph.innerHTML = '';
+        graph.removeAttribute("data-processed");
 
+        graph.innerHTML = result;
+        mermaid.initialize({ startOnLoad: false });
         await mermaid.run({
             querySelector: '.mermaid',
         });
