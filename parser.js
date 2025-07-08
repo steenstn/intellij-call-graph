@@ -11,7 +11,7 @@ let replaceLine = (line) => {
     regexes.forEach(regex => {
         let match = line.match(regex);
         if(line.match(regex)) {
-            result = match.length == 3 ? ""+match[2] + "." + match[1] : match[1];
+            result = match.length === 3 ? ""+match[2] + "." + match[1] : match[1];
         }
     });
     return result;
