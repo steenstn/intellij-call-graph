@@ -1,7 +1,8 @@
 let replaceLineTestCases = [
     "SomeFactory.createCustomerId(CustomerData)  (com.example)", "SomeFactory.createCustomerId",
     "Customer.createCustomer()  (com.example)", "Customer.createCustomer",
-    "CustomerPatchHelper.products  (com.example)","CustomerPatchHelper.products"
+    "CustomerPatchHelper.products  (com.example)","CustomerPatchHelper.products",
+    "DefaultCustomerCreator.enableProduct(Customer)(2 usages)  (com.example)", "DefaultCustomerCreator.enableProduct"
 ];
 
 
