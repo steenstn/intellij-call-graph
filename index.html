@@ -1,41 +1,78 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-		  <script type="module">
-    import mermaid from 'https://cdn.jsdelivr.net/npm/mermaid@10/dist/mermaid.esm.min.mjs';
-              window.mermaid = mermaid;
-    mermaid.initialize({ startOnLoad: false });
-  </script>
+    <script type="module">
+        import mermaid from 'https://cdn.jsdelivr.net/npm/mermaid@10/dist/mermaid.esm.min.mjs';
+
+        window.mermaid = mermaid;
+        mermaid.initialize({startOnLoad: true});
+    </script>
     <script src="parser.js"></script>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>IntelliJ Call Hiearchy visualiser</title>
     <script>
-    let handleTextChange = async (event) => {
-        let allText = event.target.value;
-        let result = parseCallGraph(allText);
+        let handleInputAreaChanged = (event) => {
+            parseCallHierarchy(event);
+        }
+        let handleOutputAreaChanged = (event) => {
+            createChart(event.target.value);
+        }
 
-        let output = document.getElementById("output");
-        output.value = result;
-        let graph = document.getElementById("graph");
-        graph.innerHTML = '';
-        graph.removeAttribute("data-processed");
+        let parseCallHierarchy = (event) => {
+            let allText = event.target.value;
+            let result = parseCallGraph(allText);
 
-        graph.innerHTML = result;
-        mermaid.initialize({ startOnLoad: false });
-        await mermaid.run({
-            querySelector: '.mermaid',
-        });
-    }
+            let output = document.getElementById("output");
+            output.value = result;
+            createChart(result);
+        }
+
+        let createChart = async (text) => {
+            let graph = document.getElementById("graph");
+            graph.innerHTML = '';
+            graph.removeAttribute("data-processed");
+
+            graph.innerHTML = text;
+            mermaid.initialize({startOnLoad: false});
+            await mermaid.run({
+                querySelector: '.mermaid',
+            });
+        };
+
+
     </script>
+
 </head>
 <body>
 <p>Input. Paste IntelliJ call hierarchy here</p>
-    <textarea onchange="handleTextChange(event)" rows="10" cols="80"></textarea><br />
-<p>Output</p>
-    <textarea id="output" rows="10" cols="80"></textarea>
-<pre id="graph" class="mermaid">
+<textarea id="input" onchange="handleInputAreaChanged(event)" rows="10" cols="100">SomeFactory.createCustomerId(CustomerData)  (com.example)
+    Customer.createCustomer()  (com.example)
+        Customer.addProduct(Product)  (com.example)
+            Customer.updateProducts(EnumSet<Product>)  (com.example)
+                CustomerPatchHelper.products  (com.example)
+            DefaultCustomerCreator.enableProduct(Customer)(2 usages)  (com.example)
+                DefaultCustomerCreator.createWithProduct(CompanyId, String, ContactPerson)  (com.example)
 
-    </pre>
+    </textarea><br/>
+<p>Mermaid syntax</p>
+<textarea id="output" onchange="handleOutputAreaChanged(event)" rows="10" cols="100">graph TD
+SomeFactory.createCustomerId --> target
+Customer.createCustomer --> SomeFactory.createCustomerId
+Customer.addProduct --> Customer.createCustomer
+Customer.updateProducts --> Customer.addProduct
+CustomerPatchHelper.products --> Customer.updateProducts
+DefaultCustomerCreator.enableProduct --> Customer.addProduct
+DefaultCustomerCreator.createWithProduct --> DefaultCustomerCreator.enableProduct
+</textarea>
+<pre id="graph" class="mermaid">graph TD
+SomeFactory.createCustomerId --> target
+Customer.createCustomer --> SomeFactory.createCustomerId
+Customer.addProduct --> Customer.createCustomer
+Customer.updateProducts --> Customer.addProduct
+CustomerPatchHelper.products --> Customer.updateProducts
+DefaultCustomerCreator.enableProduct --> Customer.addProduct
+DefaultCustomerCreator.createWithProduct --> DefaultCustomerCreator.enableProduct
+</pre>
 </body>
 </html>

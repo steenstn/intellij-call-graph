@@ -2,6 +2,7 @@
 let replaceLine = (line) => {
     let regexes = [
         /(\w+\.\w+)\(.*\)/,
+        /(\w+\.\w+)/,
         /(\w+)\(.*\).*in (\w*)/,
         /in (\w*\.\w+)/
     ];
@@ -26,7 +27,7 @@ let parseCallGraph = (input) => {
     let output = "graph TD\n";
     let lastLine = callStack[0];
     lines.forEach(line => {
-        if (!line) {
+        if (!line || line.trim() === '') {
             return;
         }
         let replacedLine = replaceLine(line);
