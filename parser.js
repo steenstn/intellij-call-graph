@@ -3,7 +3,7 @@ let regexes = new Map();
 let replaceRegex = /[, ]/gi;
 regexes.set(/(\w+\.\w+)\((.*)\)\(/, (matches) => matches[1] + matches[2].replaceAll(replaceRegex, "") + "[\"" + matches[1] + "(" + matches[2] + ")\"]");
 regexes.set(/(\w+\.\w+)\((.*)\)  /, (matches) => matches[1] + matches[2].replaceAll(replaceRegex, "") + "[\"" + matches[1] + "(" + matches[2] + ")\"]");
-regexes.set(/(\w+)\((.*)\).*in (\w*)/, (matches) => `${matches[3]}.${matches[1]}${matches[2]}["${matches[3]}.${matches[1]}(${matches[2]})"]`);
+regexes.set(/(\w+)\((.*)\).*in (\w*)/, (matches) => `${matches[3]}.${matches[1]}${matches[2].replaceAll(replaceRegex, "")}["${matches[3]}.${matches[1]}(${matches[2]})"]`);
 regexes.set(/in (\w*\.\w+)/, (match) => match[1]);
 regexes.set(/(\w+\.\w+)/, (match) => match[1]);
 

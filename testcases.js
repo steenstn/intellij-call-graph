@@ -5,7 +5,8 @@ let replaceLineTestCases = [
     "DefaultCustomerCreator.enableProduct(Customer)(2 usages)  (com.example)", `DefaultCustomerCreator.enableProductCustomer["DefaultCustomerCreator.enableProduct(Customer)"]`,
     "wrappingExecute(Task) in TaskExecutor in SimpleSchedulerService  (se.mynt.arch.scheduler)", `SimpleSchedulerService.wrappingExecuteTask["SimpleSchedulerService.wrappingExecute(Task)"]`,
     "DefaultLinkAccessController.createDirectDebitAgreement(Iban)  (se.mynt.app.linkaccess.api)", `DefaultLinkAccessController.createDirectDebitAgreementIban["DefaultLinkAccessController.createDirectDebitAgreement(Iban)"]`,
-    "Class.call(Boolean, Amount, Amount)  (se.mynt.app.linkaccess.api)", `Class.callBooleanAmountAmount["Class.call(Boolean, Amount, Amount)"]`
+    "Class.call(Boolean, Amount, Amount)  (se.mynt.app.linkaccess.api)", `Class.callBooleanAmountAmount["Class.call(Boolean, Amount, Amount)"]`,
+    "payment(AccountXEngine, Amount) in Invoice in GenericInvoiceProvider  (se.mynt.app.payment.internal.spi)", `GenericInvoiceProvider.paymentAccountXEngineAmount["GenericInvoiceProvider.payment(AccountXEngine, Amount)"]`
 ];
 
 
