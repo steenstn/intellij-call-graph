@@ -1,19 +1,24 @@
 
-let replaceLine = (line) => {
-    let regexes = [
-        /(\w+\.\w+)\(.*\)/,
-        /(\w+\.\w+)/,
-        /(\w+)\(.*\).*in (\w*)/,
-        /in (\w*\.\w+)/
-    ];
+let regexes = new Map();
+regexes.set(/(\w+\.\w+)\((.*)\)\(/, (matches) => matches[1] + matches[2].replaceAll(", ", "") + "[\"" + matches[1] + "(" + matches[2] + ")\"]");
+regexes.set(/(\w+\.\w+)\((.*)\)  /, (matches) => matches[1] + matches[2].replaceAll(", ", "") + "[\"" + matches[1] + "(" + matches[2] + ")\"]");
+regexes.set(/(\w+)\((.*)\).*in (\w*)/, (matches) => `${matches[3]}.${matches[1]}${matches[2]}["${matches[3]}.${matches[1]}(${matches[2]})"]`);
+regexes.set(/in (\w*\.\w+)/, (match) => match[1]);
+regexes.set(/(\w+\.\w+)/, (match) => match[1]);
 
+const entries = Array.from(regexes.entries());
+
+let replaceLine = (line) => {
     let result = line;
-    regexes.forEach(regex => {
+    for (let i = 0; i < entries.length; i++) {
+        const [regex, mappingFunction] = entries[i];
         let match = line.match(regex);
-        if(line.match(regex)) {
-            result = match.length === 3 ? ""+match[2] + "." + match[1] : match[1];
+
+        if (match) {
+            result = mappingFunction(match).replaceAll(/[<>]/gi, "");
+            break;
         }
-    });
+    }
     return result;
 
 }

@@ -6,15 +6,15 @@ let assertEquals = (actual, expected) => {
 
 let test = (functionToTest, input) => {
     let i;
-    for(i = 0; i < input.length; i+=2) {
+    for (i = 0; i < input.length; i += 2) {
         let output = functionToTest(input[i])
-        assertEquals(output, input[i+1])
+        assertEquals(output, input[i + 1])
     }
 
-    document.getElementById("test_results").innerText +=  "\n" + i + " tests passed";
+    document.getElementById("test_results").innerText += "\n" + i / 2 + " tests passed";
 }
 
 test(replaceLine, replaceLineTestCases);
 test(parseCallGraph, fullTestCases);
 
-document.getElementById("test_results").innerText +=  "\nAll test passed" ;
+document.getElementById("test_results").innerText += "\nAll test passed";

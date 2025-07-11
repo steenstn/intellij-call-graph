@@ -56,23 +56,27 @@
 
     </textarea><br/>
 <p>Mermaid syntax</p>
-<textarea id="output" onchange="handleOutputAreaChanged(event)" rows="10" cols="100">graph TD
-SomeFactory.createCustomerId --> target
-Customer.createCustomer --> SomeFactory.createCustomerId
-Customer.addProduct --> Customer.createCustomer
-Customer.updateProducts --> Customer.addProduct
-CustomerPatchHelper.products --> Customer.updateProducts
-DefaultCustomerCreator.enableProduct --> Customer.addProduct
-DefaultCustomerCreator.createWithProduct --> DefaultCustomerCreator.enableProduct
+<textarea id="output" onchange="handleOutputAreaChanged(event)" rows="10" cols="100">
+graph TD
+SomeFactory.createCustomerIdCustomerData["SomeFactory.createCustomerId(CustomerData)"] --> target
+Customer.createCustomer["Customer.createCustomer()"] --> SomeFactory.createCustomerIdCustomerData["SomeFactory.createCustomerId(CustomerData)"]
+Customer.addProductProduct["Customer.addProduct(Product)"] --> Customer.createCustomer["Customer.createCustomer()"]
+Customer.updateProductsEnumSetProduct["Customer.updateProducts(EnumSetProduct)"] --> Customer.addProductProduct["Customer.addProduct(Product)"]
+CustomerPatchHelper.products --> Customer.updateProductsEnumSetProduct["Customer.updateProducts(EnumSetProduct)"]
+DefaultCustomerCreator.enableProductCustomer["DefaultCustomerCreator.enableProduct(Customer)"] --> Customer.addProductProduct["Customer.addProduct(Product)"]
+DefaultCustomerCreator.createWithProductCompanyIdStringContactPerson["DefaultCustomerCreator.createWithProduct(CompanyId, String, ContactPerson)"] --> DefaultCustomerCreator.enableProductCustomer["DefaultCustomerCreator.enableProduct(Customer)"]
+
 </textarea>
-<pre id="graph" class="mermaid">graph TD
-SomeFactory.createCustomerId --> target
-Customer.createCustomer --> SomeFactory.createCustomerId
-Customer.addProduct --> Customer.createCustomer
-Customer.updateProducts --> Customer.addProduct
-CustomerPatchHelper.products --> Customer.updateProducts
-DefaultCustomerCreator.enableProduct --> Customer.addProduct
-DefaultCustomerCreator.createWithProduct --> DefaultCustomerCreator.enableProduct
+<pre id="graph" class="mermaid">
+graph TD
+SomeFactory.createCustomerIdCustomerData["SomeFactory.createCustomerId(CustomerData)"] --> target
+Customer.createCustomer["Customer.createCustomer()"] --> SomeFactory.createCustomerIdCustomerData["SomeFactory.createCustomerId(CustomerData)"]
+Customer.addProductProduct["Customer.addProduct(Product)"] --> Customer.createCustomer["Customer.createCustomer()"]
+Customer.updateProductsEnumSetProduct["Customer.updateProducts(EnumSetProduct)"] --> Customer.addProductProduct["Customer.addProduct(Product)"]
+CustomerPatchHelper.products --> Customer.updateProductsEnumSetProduct["Customer.updateProducts(EnumSetProduct)"]
+DefaultCustomerCreator.enableProductCustomer["DefaultCustomerCreator.enableProduct(Customer)"] --> Customer.addProductProduct["Customer.addProduct(Product)"]
+DefaultCustomerCreator.createWithProductCompanyIdStringContactPerson["DefaultCustomerCreator.createWithProduct(CompanyId, String, ContactPerson)"] --> DefaultCustomerCreator.enableProductCustomer["DefaultCustomerCreator.enableProduct(Customer)"]
+
 </pre>
 </body>
 </html>
